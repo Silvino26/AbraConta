@@ -1,534 +1,396 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AbraConta | Cadastro Inicial</title>
-  <style>
-    :root {
-      --bg: #08111f;
-      --card: #0f172a;
-      --stroke: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --primary: #22c55e;
-      --primary-dark: #16a34a;
-      --input: #0b1220;
-      --danger: #ef4444;
-      --warn: #f59e0b;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #020617, #0f172a);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 20px 56px;
-    }
-
-    .header { margin-bottom: 24px; }
-
-    .badge {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.28);
-      color: #bbf7d0;
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 34px;
-      line-height: 1.1;
-    }
-
-    .sub {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 820px;
-    }
-
-    .card {
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid var(--stroke);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-    }
-
-    .grid { display: grid; gap: 16px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      color: #cbd5e1;
-    }
-
-    .req::after {
-      content: " *";
-      color: #86efac;
-    }
-
-    input, select {
-      width: 100%;
-      height: 48px;
-      border-radius: 14px;
-      border: 1px solid #334155;
-      background: var(--input);
-      color: var(--text);
-      padding: 0 14px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus, select:focus {
-      border-color: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.14);
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      color: #052e16;
-    }
-
-    .btn-secondary {
-      background: #111827;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-    }
-
-    .panel {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .panel.warn {
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: #fde68a;
-    }
-
-    .preview {
-      margin-top: 24px;
-      background: #07101d;
-      border: 1px solid #223047;
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    .preview h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-
-    pre {
-      margin: 0;
-      white-space: pre-wrap;
-      word-break: break-word;
-      color: #cbd5e1;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .msg {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      display: none;
-      font-size: 14px;
-    }
-
-    .msg.ok {
-      display: block;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      color: #bbf7d0;
-    }
-
-    .msg.error {
-      display: block;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      color: #fecaca;
-    }
-
-    .hint {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .section-title {
-      margin: 8px 0 0;
-      font-size: 16px;
-      color: #e2e8f0;
-    }
-
-    @media (max-width: 820px) {
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
-      h1 { font-size: 28px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Abraconta Contabilidade Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // Configuração da paleta de cores (Baseada em identidades corporativas modernas de contabilidade)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abraconta: {
+                            blue: '#0d253f',    // Azul Escuro Institucional
+                            accent: '#0066cc',  // Azul de Interação
+                            green: '#10b981',   // Verde de Sucesso/Conversão
+                            bg: '#f8fafc'       // Fundo cinza super claro
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Esconder spinner de inputs numéricos */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        /* Estilização do rádio customizado para os planos */
+        .plan-radio:checked + div {
+            border-color: #0066cc;
+            background-color: #eff6ff;
+        }
+        .plan-radio:checked + div .check-icon {
+            opacity: 1;
+        }
+    </style>
 </head>
-<body>
-  <div class="wrap">
-    <div class="header">
-      <div class="badge">AbraConta • Validação do Fluxo 1</div>
-      <h1>Cadastro inicial do cliente</h1>
-      <p class="sub">
-        Este front envia os dados no formato exato esperado pelo fluxo 1 do n8n.
-        Ele já monta o payload compatível com a criação do cliente no banco e no Asaas.
-      </p>
-    </div>
+<body class="bg-abraconta-bg font-sans text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <div class="card">
-      <div class="panel warn">
-        <strong>Antes de testar:</strong><br>
-        1. No n8n, use a URL de <strong>teste</strong> se o workflow estiver em execução manual, ou a URL de <strong>produção</strong> se ele estiver ativo.<br>
-        2. No Webhook node, deixe <strong>Allowed Origins (CORS)</strong> como <strong>*</strong> ou inclua o domínio do seu HTML.<br>
-        3. O fluxo 1 exige também dados de pagamento, então este HTML já envia esses campos junto.
-      </div>
+    <!-- Header -->
+    <header class="bg-abraconta-blue text-white py-4 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <a href="https://www.abraconta.com.br/" target="_blank" class="flex items-center hover:opacity-90 transition-opacity">
+                <img src="https://www.abraconta.com.br/wp-content/uploads/2023/11/abraconta-scaled-e1760382348820-1024x214.png" alt="Logo Abraconta" class="h-8 md:h-10 w-auto object-contain">
+            </a>
+            <div class="text-sm flex items-center gap-2">
+                <i class="fa-solid fa-lock text-abraconta-green"></i>
+                <span>Ambiente Seguro</span>
+            </div>
+        </div>
+    </header>
 
-      <form id="customerForm" class="grid">
-        <div class="grid-2">
-          <div>
-            <label class="req" for="webhookUrl">Webhook do n8n</label>
-            <input id="webhookUrl" name="webhookUrl" type="url" placeholder="https://seu-n8n/webhook-test/abraconta/checkout/criar-cobranca" required />
-            <div class="hint">Ex.: teste: /webhook-test/... | produção: /webhook/...</div>
-          </div>
-          <div>
-            <label for="billingType">Forma de cobrança</label>
-            <select id="billingType" name="billingType">
-              <option value="BOLETO">BOLETO</option>
-              <option value="PIX">PIX</option>
-              <option value="CREDIT_CARD">CREDIT_CARD</option>
-            </select>
-          </div>
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Form Section -->
+        <div class="lg:col-span-8">
+            <form id="checkoutForm" class="space-y-8">
+                
+                <!-- 1. Seleção de Plano -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-box-open mr-2"></i>1. Escolha seu serviço</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Plano: Abertura -->
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="plan" value="abertura" class="plan-radio sr-only" checked onchange="updateSummary()">
+                            <div class="border-2 border-gray-200 rounded-lg p-5 hover:border-abraconta-accent transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Abertura de Empresa</h3>
+                                    <i class="fa-solid fa-circle-check text-abraconta-accent opacity-0 check-icon transition-opacity text-xl"></i>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4">Ideal para quem está começando agora e precisa do CNPJ.</p>
+                                <div class="text-2xl font-bold text-abraconta-blue">R$ 1.678,80</div>
+                                <div class="text-sm text-abraconta-green font-medium mt-1">Até 12x no cartão (com juros)</div>
+                            </div>
+                        </label>
+
+                        <!-- Plano: Transferência -->
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="plan" value="transferencia" class="plan-radio sr-only" onchange="updateSummary()">
+                            <div class="border-2 border-gray-200 rounded-lg p-5 hover:border-abraconta-accent transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Transferência de Contabilidade</h3>
+                                    <i class="fa-solid fa-circle-check text-abraconta-accent opacity-0 check-icon transition-opacity text-xl"></i>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4">Traga sua empresa para a Abraconta com segurança e rapidez.</p>
+                                <div class="text-2xl font-bold text-abraconta-blue">R$ 1.198,80</div>
+                                <div class="text-sm text-abraconta-green font-medium mt-1">Até 12x no cartão (com juros)</div>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- 2. Dados de Contato -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-user mr-2"></i>2. Dados de Contato</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                            <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="João da Silva">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
+                            <input type="text" id="customerCpfCnpj" required oninput="maskCpfCnpj(this)" maxlength="18" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Celular / WhatsApp</label>
+                            <input type="text" id="customerPhone" required oninput="maskPhone(this)" maxlength="15" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="(11) 90000-0000">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                            <input type="email" id="customerEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="joao@email.com">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Dados de Pagamento (Asaas) -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue flex items-center justify-between">
+                        <span><i class="fa-solid fa-credit-card mr-2"></i>3. Pagamento Seguro</span>
+                        <div class="flex gap-2 text-xl text-gray-400">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                    </h2>
+                    
+                    <!-- MENSAGEM DE ERRO (Oculta por defeito) -->
+                    <div id="errorMessage" class="hidden mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-md text-sm">
+                        <!-- Texto do erro entra aqui -->
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Número do Cartão</label>
+                            <input type="text" id="cardNumber" required oninput="maskCard(this)" maxlength="19" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition font-mono tracking-widest" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome impresso no cartão</label>
+                            <input type="text" id="cardHolderName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition uppercase" placeholder="JOÃO DA SILVA">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Validade (MM/AA)</label>
+                            <input type="text" id="cardExpiry" required oninput="maskExpiry(this)" maxlength="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition text-center" placeholder="12/29">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                            <div class="relative">
+                                <input type="text" id="cardCvv" required maxlength="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition text-center" placeholder="123">
+                                <i class="fa-solid fa-circle-question absolute right-3 top-3 text-gray-400 cursor-help" title="Código de 3 ou 4 dígitos atrás do cartão"></i>
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 mt-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Parcelamento (com juros Asaas)</label>
+                            <select id="installments" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition bg-white">
+                                <!-- Gerado via JS -->
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" id="btnSubmit" class="w-full bg-abraconta-green hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition-colors flex justify-center items-center text-lg">
+                    <i class="fa-solid fa-lock mr-2"></i> Finalizar Contratação
+                </button>
+            </form>
         </div>
 
-        <div>
-          <div class="section-title">Dados do cliente</div>
+        <!-- Order Summary Section (Sticky sidebar) -->
+        <div class="lg:col-span-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
+                <h3 class="text-lg font-bold mb-4 border-b pb-2">Resumo do Pedido</h3>
+                
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-gray-600" id="summaryPlanName">Abertura de Empresa</span>
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 text-sm">Valor à vista:</span>
+                    <span class="font-medium text-gray-800" id="summaryPlanPrice">R$ 1.678,80</span>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-abraconta-accent mt-1"></i>
+                        <p class="text-sm text-abraconta-blue leading-relaxed">
+                            O parcelamento em até <strong>12x no cartão de crédito</strong> está sujeito a taxas de juros padrão da processadora de pagamentos. O valor exato das parcelas é simulado no campo de pagamento.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-lg">Total</span>
+                        <span class="font-bold text-2xl text-abraconta-blue" id="summaryTotal">R$ 1.678,80</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Pagamento processado de forma segura por <strong>Asaas</strong></span>
+                </div>
+            </div>
         </div>
 
-        <div class="grid-2">
-          <div>
-            <label class="req" for="name">Nome do cliente</label>
-            <input id="name" name="name" type="text" placeholder="Nome completo ou razão social" required />
-          </div>
-          <div>
-            <label class="req" for="cpfCnpj">CPF ou CNPJ</label>
-            <input id="cpfCnpj" name="cpfCnpj" type="text" placeholder="000.000.000-00 ou 00.000.000/0000-00" required />
-          </div>
-        </div>
+    </main>
 
-        <div class="grid-3">
-          <div>
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" placeholder="cliente@exemplo.com" />
-          </div>
-          <div>
-            <label for="phone">Telefone fixo</label>
-            <input id="phone" name="phone" type="text" placeholder="(11) 3333-3333" />
-          </div>
-          <div>
-            <label class="req" for="mobilePhone">Celular</label>
-            <input id="mobilePhone" name="mobilePhone" type="text" placeholder="(11) 99999-9999" />
-          </div>
-        </div>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 text-center text-sm">
+        <p>&copy; 2026 Abraconta Contabilidade Digital. Todos os direitos reservados.</p>
+    </footer>
 
-        <div>
-          <div class="section-title">Endereço</div>
-        </div>
+    <!-- Scripts de Lógica e Máscaras -->
+    <script>
+        // Tabela de Preços
+        const prices = {
+            'abertura': 1678.80,
+            'transferencia': 1198.80
+        };
 
-        <div class="grid-3">
-          <div>
-            <label for="postalCode">CEP</label>
-            <input id="postalCode" name="postalCode" type="text" placeholder="00000-000" />
-          </div>
-          <div>
-            <label for="addressNumber">Número</label>
-            <input id="addressNumber" name="addressNumber" type="text" placeholder="123" />
-          </div>
-          <div>
-            <label for="complement">Complemento</label>
-            <input id="complement" name="complement" type="text" placeholder="Sala, conjunto, apto" maxlength="255" />
-          </div>
-        </div>
+        const planNames = {
+            'abertura': 'Abertura de Empresa',
+            'transferencia': 'Transferência de Contabilidade'
+        };
 
-        <div class="grid-2">
-          <div>
-            <label for="address">Logradouro</label>
-            <input id="address" name="address" type="text" placeholder="Rua, avenida, alameda" />
-          </div>
-          <div>
-            <label for="province">Bairro</label>
-            <input id="province" name="province" type="text" placeholder="Bairro" />
-          </div>
-        </div>
+        // Simulação simples de juros (Ex: 2.49% a.m do gateway) para visualização.
+        const interestRatePerMonth = 0.0249; 
 
-        <div>
-          <div class="section-title">Dados mínimos para testar o fluxo 1</div>
-        </div>
-
-        <div class="grid-3">
-          <div>
-            <label class="req" for="valor_total">Valor total</label>
-            <input id="valor_total" name="valor_total" type="number" step="0.01" placeholder="1500.00" required />
-          </div>
-          <div>
-            <label class="req" for="dueDate">Data de vencimento</label>
-            <input id="dueDate" name="dueDate" type="date" required />
-          </div>
-          <div>
-            <label for="tipo_plano">Tipo de plano</label>
-            <input id="tipo_plano" name="tipo_plano" type="text" placeholder="Abertura de Empresa" />
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <div>
-            <label class="req" for="installmentCount">Qtd. parcelas</label>
-            <input id="installmentCount" name="installmentCount" type="number" min="1" value="12" required />
-          </div>
-          <div>
-            <label class="req" for="installmentValue">Valor da parcela</label>
-            <input id="installmentValue" name="installmentValue" type="number" step="0.01" placeholder="125.00" required />
-          </div>
-          <div>
-            <label for="description">Descrição</label>
-            <input id="description" name="description" type="text" placeholder="Plano Abraconta" />
-          </div>
-        </div>
-
-        <div class="actions">
-          <button type="button" class="btn-secondary" id="fillExample">Preencher exemplo</button>
-          <button type="button" class="btn-secondary" id="generateJson">Gerar JSON</button>
-          <button type="submit" class="btn-primary">Enviar para o n8n</button>
-        </div>
-      </form>
-
-      <div id="feedback" class="msg"></div>
-
-      <div class="preview">
-        <h2>Prévia do payload</h2>
-        <pre id="payloadPreview">{}</pre>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const form = document.getElementById('customerForm');
-    const preview = document.getElementById('payloadPreview');
-    const feedback = document.getElementById('feedback');
-
-    const fields = [
-      'name','cpfCnpj','email','phone','mobilePhone','address','addressNumber','complement','province','postalCode',
-      'valor_total','dueDate','installmentCount','installmentValue','description','billingType','tipo_plano'
-    ];
-
-    function onlyDigits(value) {
-      return String(value || '').replace(/\D/g, '');
-    }
-
-    function maskCpfCnpj(value) {
-      const digits = onlyDigits(value).slice(0, 14);
-      if (digits.length <= 11) {
-        return digits
-          .replace(/(\d{3})(\d)/, '$1.$2')
-          .replace(/(\d{3})(\d)/, '$1.$2')
-          .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      }
-      return digits
-        .replace(/(\d{2})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1/$2')
-        .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-    }
-
-    function maskPhone(value) {
-      const digits = onlyDigits(value).slice(0, 11);
-      if (digits.length <= 10) {
-        return digits.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{4})(\d)/, '$1-$2');
-      }
-      return digits.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
-    }
-
-    function maskCep(value) {
-      return onlyDigits(value).slice(0, 8).replace(/(\d{5})(\d)/, '$1-$2');
-    }
-
-    function getPayload() {
-      const rawCpfCnpj = onlyDigits(document.getElementById('cpfCnpj').value);
-      const isCpf = rawCpfCnpj.length <= 11;
-
-      return {
-        nome_completo: document.getElementById('name').value.trim(),
-        cpf: isCpf ? rawCpfCnpj : '',
-        cpfCnpj: rawCpfCnpj,
-        email: document.getElementById('email').value.trim(),
-        telefone_whatsapp: onlyDigits(document.getElementById('mobilePhone').value),
-        phone: onlyDigits(document.getElementById('phone').value),
-        mobilePhone: onlyDigits(document.getElementById('mobilePhone').value),
-        address: document.getElementById('address').value.trim(),
-        addressNumber: document.getElementById('addressNumber').value.trim(),
-        complement: document.getElementById('complement').value.trim(),
-        province: document.getElementById('province').value.trim(),
-        postalCode: onlyDigits(document.getElementById('postalCode').value),
-        valor_total: Number(document.getElementById('valor_total').value || 0),
-        dueDate: document.getElementById('dueDate').value,
-        installmentCount: Number(document.getElementById('installmentCount').value || 0),
-        installmentValue: Number(document.getElementById('installmentValue').value || 0),
-        description: document.getElementById('description').value.trim() || 'Plano Abraconta',
-        billingType: document.getElementById('billingType').value,
-        tipo_plano: document.getElementById('tipo_plano').value.trim() || 'Abertura de Empresa'
-      };
-    }
-
-    function updatePreview(extra = null) {
-      const data = extra || getPayload();
-      preview.textContent = JSON.stringify(data, null, 2);
-    }
-
-    function setFeedback(message, type) {
-      feedback.className = `msg ${type}`;
-      feedback.textContent = message;
-    }
-
-    document.getElementById('cpfCnpj').addEventListener('input', (e) => {
-      e.target.value = maskCpfCnpj(e.target.value);
-      updatePreview();
-    });
-
-    document.getElementById('phone').addEventListener('input', (e) => {
-      e.target.value = maskPhone(e.target.value);
-      updatePreview();
-    });
-
-    document.getElementById('mobilePhone').addEventListener('input', (e) => {
-      e.target.value = maskPhone(e.target.value);
-      updatePreview();
-    });
-
-    document.getElementById('postalCode').addEventListener('input', (e) => {
-      e.target.value = maskCep(e.target.value);
-      updatePreview();
-    });
-
-    fields.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('input', () => updatePreview());
-      el.addEventListener('change', () => updatePreview());
-    });
-
-    document.getElementById('fillExample').addEventListener('click', () => {
-      document.getElementById('name').value = 'Ana Carolina Silvino Silva';
-      document.getElementById('cpfCnpj').value = '123.456.789-01';
-      document.getElementById('email').value = 'ana.teste@abraconta.com';
-      document.getElementById('phone').value = '(11) 3333-9412';
-      document.getElementById('mobilePhone').value = '(11) 96446-4906';
-      document.getElementById('address').value = 'Rua James Joule';
-      document.getElementById('addressNumber').value = '92';
-      document.getElementById('complement').value = 'Sala 01';
-      document.getElementById('province').value = 'Cidade Monções';
-      document.getElementById('postalCode').value = '04576-080';
-      document.getElementById('valor_total').value = '1500';
-      document.getElementById('installmentCount').value = '12';
-      document.getElementById('installmentValue').value = '125';
-      document.getElementById('description').value = 'Plano Abraconta';
-      document.getElementById('tipo_plano').value = 'Abertura de Empresa';
-      document.getElementById('billingType').value = 'BOLETO';
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      document.getElementById('dueDate').value = tomorrow.toISOString().split('T')[0];
-      updatePreview();
-      setFeedback('Exemplo preenchido para acelerar sua validação.', 'ok');
-    });
-
-    document.getElementById('generateJson').addEventListener('click', () => {
-      updatePreview();
-      setFeedback('JSON gerado com sucesso. Você já pode copiar da prévia.', 'ok');
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const webhookUrl = document.getElementById('webhookUrl').value.trim();
-      const payload = getPayload();
-
-      if (!payload.nome_completo || !payload.cpfCnpj || !payload.telefone_whatsapp || !payload.valor_total || !payload.dueDate) {
-        setFeedback('Preencha nome, CPF/CNPJ, celular, valor total e vencimento.', 'error');
-        return;
-      }
-
-      try {
-        setFeedback('Enviando dados para o webhook...', 'ok');
-
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(payload)
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSummary();
         });
 
-        const text = await response.text();
-        let parsed;
-        try {
-          parsed = JSON.parse(text);
-        } catch {
-          parsed = text;
+        // Atualizar Resumo e Parcelas
+        function updateSummary() {
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            const price = prices[selectedPlan];
+            const name = planNames[selectedPlan];
+
+            // Atualiza sidebar
+            document.getElementById('summaryPlanName').innerText = name;
+            document.getElementById('summaryPlanPrice').innerText = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('summaryTotal').innerText = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Atualiza select de parcelas
+            const installmentsSelect = document.getElementById('installments');
+            installmentsSelect.innerHTML = '';
+            
+            // Gerar opções de 1x a 12x
+            for (let i = 1; i <= 12; i++) {
+                let installmentValue = price;
+                let text = '';
+                
+                if (i === 1) {
+                    text = `1x de ${price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Sem juros)`;
+                } else {
+                    // Cálculo de juros compostos simulado
+                    const iRate = interestRatePerMonth;
+                    const coef = (iRate) / (1 - Math.pow(1 + iRate, -i));
+                    installmentValue = price * coef;
+                    text = `${i}x de ${installmentValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Com juros)`;
+                }
+
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = text;
+                // Selecionar 12x por padrão
+                if (i === 12) option.selected = true; 
+                installmentsSelect.appendChild(option);
+            }
         }
 
-        updatePreview({ payload_enviado: payload, resposta_n8n: parsed, status_http: response.status });
-
-        if (!response.ok) {
-          setFeedback(`Webhook respondeu com erro (${response.status}). Confira a resposta na prévia abaixo.`, 'error');
-          return;
+        // --- Máscaras de Input ---
+        function maskCpfCnpj(input) {
+            let v = input.value.replace(/\D/g, "");
+            if (v.length <= 11) { // CPF
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else { // CNPJ
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            input.value = v;
         }
 
-        setFeedback('Dados enviados com sucesso para o n8n.', 'ok');
-      } catch (error) {
-        updatePreview({ payload_enviado: payload, erro: error.message });
-        setFeedback(`Falha ao enviar para o webhook: ${error.message}`, 'error');
-      }
-    });
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+            v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+            input.value = v;
+        }
 
-    updatePreview();
-  </script>
+        function maskCard(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/(\d{4})(?=\d)/g, "$1 ");
+            input.value = v;
+        }
+
+        function maskExpiry(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/(\d{2})(\d)/, "$1/$2");
+            input.value = v;
+        }
+
+        // --- INTEGRAÇÃO REAL COM O SEU BACKEND NODE.JS ---
+        document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evita recarregar a página
+            
+            const btn = document.getElementById('btnSubmit');
+            const errorContainer = document.getElementById('errorMessage');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> A processar...';
+            btn.disabled = true;
+            if (errorContainer) errorContainer.classList.add('hidden'); // Esconde erros anteriores
+
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            const expiryParts = document.getElementById('cardExpiry').value.split('/');
+
+            // Constrói o pacote de dados a ser enviado para o Node.js
+            const payload = {
+                plan: selectedPlan,
+                customer: {
+                    name: document.getElementById('customerName').value,
+                    cpfCnpj: document.getElementById('customerCpfCnpj').value.replace(/\D/g, ''),
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value.replace(/\D/g, '')
+                },
+                payment: {
+                    billingType: 'CREDIT_CARD',
+                    value: prices[selectedPlan],
+                    installmentCount: parseInt(document.getElementById('installments').value),
+                    creditCard: {
+                        holderName: document.getElementById('cardHolderName').value.toUpperCase(),
+                        number: document.getElementById('cardNumber').value.replace(/\D/g, ''),
+                        expiryMonth: expiryParts[0],
+                        expiryYear: expiryParts[1],
+                        ccv: document.getElementById('cardCvv').value
+                    }
+                }
+            };
+
+            try {
+                // CHAMA O SEU SERVIDOR BACKEND (Que está a correr no Node.js na porta 3000)
+                const response = await fetch('http://localhost:3000/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // SUCESSO NO PAGAMENTO!
+                    alert(`Obrigado! Pagamento aprovado com sucesso.\nID do Pagamento: ${data.data.paymentId}`);
+                    
+                    // Aqui você redirecionaria o cliente para a tela de "Parabéns"
+                    // window.location.href = "/obrigado.html"; 
+                    
+                } else {
+                    // ERRO RETORNADO PELO SEU BACKEND/ASAAS (ex: Cartão recusado, sem saldo)
+                    if (errorContainer) {
+                        errorContainer.innerText = `Erro: ${data.message}`;
+                        errorContainer.classList.remove('hidden');
+                    } else {
+                        alert(`Erro: ${data.message}`);
+                    }
+                }
+
+            } catch (error) {
+                // ERRO DE LIGAÇÃO (Servidor Node.js está desligado ou inacessível)
+                if (errorContainer) {
+                    errorContainer.innerText = "Erro ao ligar ao servidor. Verifique se o backend Node.js está a correr.";
+                    errorContainer.classList.remove('hidden');
+                } else {
+                    alert("Erro ao ligar ao servidor.");
+                }
+            } finally {
+                // Devolve o botão ao estado normal
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
