@@ -106,8 +106,8 @@
                             <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="João da Silva">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
-                            <input type="text" id="customerCpfCnpj" required oninput="maskCpfCnpj(this)" maxlength="18" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF</label>
+                            <input type="text" id="customerCpf" required oninput="maskCpf(this)" maxlength="14" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Celular / WhatsApp</label>
@@ -137,6 +137,10 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF/CNPJ</label>
+                            <input type="text" id="paymentCpfCnpj" required oninput="maskCpfCnpj(this)" maxlength="18" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00 ou 00.000.000/0000-00">
+                        </div>
                         <div class="md:col-span-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Número do Cartão</label>
                             <input type="text" id="cardNumber" required oninput="maskCard(this)" maxlength="19" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition font-mono tracking-widest" placeholder="0000 0000 0000 0000">
@@ -276,6 +280,14 @@
         }
 
         // --- Máscaras de Input ---
+        function maskCpf(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            input.value = v;
+        }
+
         function maskCpfCnpj(input) {
             let v = input.value.replace(/\D/g, "");
             if (v.length <= 11) { // CPF
@@ -330,7 +342,7 @@
                 plan: selectedPlan,
                 customer: {
                     name: document.getElementById('customerName').value,
-                    cpfCnpj: document.getElementById('customerCpfCnpj').value.replace(/\D/g, ''),
+                    cpf: document.getElementById('customerCpf').value.replace(/\D/g, ''),
                     email: document.getElementById('customerEmail').value,
                     phone: document.getElementById('customerPhone').value.replace(/\D/g, '')
                 },
@@ -338,6 +350,7 @@
                     billingType: 'CREDIT_CARD',
                     value: prices[selectedPlan],
                     installmentCount: parseInt(document.getElementById('installments').value),
+                    cpfCnpj: document.getElementById('paymentCpfCnpj').value.replace(/\D/g, ''),
                     creditCard: {
                         holderName: document.getElementById('cardHolderName').value.toUpperCase(),
                         number: document.getElementById('cardNumber').value.replace(/\D/g, ''),
