@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Abraconta Contabilidade Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // Configuração da paleta de cores (Baseada em identidades corporativas modernas de contabilidade)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abraconta: {
+                            blue: '#0d253f',    // Azul Escuro Institucional
+                            accent: '#0066cc',  // Azul de Interação
+                            green: '#10b981',   // Verde de Sucesso/Conversão
+                            bg: '#f8fafc'       // Fundo cinza super claro
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Esconder spinner de inputs numéricos */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        /* Estilização do rádio customizado para os planos */
+        .plan-radio:checked + div {
+            border-color: #0066cc;
+            background-color: #eff6ff;
+        }
+        .plan-radio:checked + div .check-icon {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-abraconta-bg font-sans text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-abraconta-blue text-white py-4 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <a href="https://www.abraconta.com.br/" target="_blank" class="flex items-center hover:opacity-90 transition-opacity">
+                <img src="https://www.abraconta.com.br/wp-content/uploads/2023/11/abraconta-scaled-e1760382348820-1024x214.png" alt="Logo Abraconta" class="h-8 md:h-10 w-auto object-contain">
+            </a>
+            <div class="text-sm flex items-center gap-2">
+                <i class="fa-solid fa-lock text-abraconta-green"></i>
+                <span>Ambiente Seguro</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Form Section -->
+        <div class="lg:col-span-8">
+            <form id="checkoutForm" class="space-y-8">
+                
+                <!-- 1. Seleção de Plano -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-box-open mr-2"></i>1. Escolha seu serviço</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Plano: Abertura -->
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="plan" value="abertura" class="plan-radio sr-only" checked onchange="updateSummary()">
+                            <div class="border-2 border-gray-200 rounded-lg p-5 hover:border-abraconta-accent transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Abertura de Empresa</h3>
+                                    <i class="fa-solid fa-circle-check text-abraconta-accent opacity-0 check-icon transition-opacity text-xl"></i>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4">Ideal para quem está começando agora e precisa do CNPJ.</p>
+                                <div class="text-2xl font-bold text-abraconta-blue">R$ 1.678,80</div>
+                                <div class="text-sm text-abraconta-green font-medium mt-1">Até 12x no cartão (com juros)</div>
+                            </div>
+                        </label>
+
+                        <!-- Plano: Transferência -->
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="plan" value="transferencia" class="plan-radio sr-only" onchange="updateSummary()">
+                            <div class="border-2 border-gray-200 rounded-lg p-5 hover:border-abraconta-accent transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg">Transferência de Contabilidade</h3>
+                                    <i class="fa-solid fa-circle-check text-abraconta-accent opacity-0 check-icon transition-opacity text-xl"></i>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4">Traga sua empresa para a Abraconta com segurança e rapidez.</p>
+                                <div class="text-2xl font-bold text-abraconta-blue">R$ 1.198,80</div>
+                                <div class="text-sm text-abraconta-green font-medium mt-1">Até 12x no cartão (com juros)</div>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- 2. Dados de Contato -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-user mr-2"></i>2. Dados de Contato</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                            <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="João da Silva">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
+                            <input type="text" id="customerCpfCnpj" required oninput="maskCpfCnpj(this)" maxlength="18" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Celular / WhatsApp</label>
+                            <input type="text" id="customerPhone" required oninput="maskPhone(this)" maxlength="15" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="(11) 90000-0000">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                            <input type="email" id="customerEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="joao@email.com">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Dados de Pagamento (Asaas) -->
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue flex items-center justify-between">
+                        <span><i class="fa-solid fa-credit-card mr-2"></i>3. Pagamento Seguro</span>
+                        <div class="flex gap-2 text-xl text-gray-400">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                    </h2>
+                    
+                    <!-- MENSAGEM DE ERRO (Oculta por defeito) -->
+                    <div id="errorMessage" class="hidden mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-md text-sm">
+                        <!-- Texto do erro entra aqui -->
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Número do Cartão</label>
+                            <input type="text" id="cardNumber" required oninput="maskCard(this)" maxlength="19" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition font-mono tracking-widest" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome impresso no cartão</label>
+                            <input type="text" id="cardHolderName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition uppercase" placeholder="JOÃO DA SILVA">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Validade (MM/AA)</label>
+                            <input type="text" id="cardExpiry" required oninput="maskExpiry(this)" maxlength="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition text-center" placeholder="12/29">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                            <div class="relative">
+                                <input type="text" id="cardCvv" required maxlength="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition text-center" placeholder="123">
+                                <i class="fa-solid fa-circle-question absolute right-3 top-3 text-gray-400 cursor-help" title="Código de 3 ou 4 dígitos atrás do cartão"></i>
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 mt-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Parcelamento (com juros Asaas)</label>
+                            <select id="installments" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition bg-white">
+                                <!-- Gerado via JS -->
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" id="btnSubmit" class="w-full bg-abraconta-green hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition-colors flex justify-center items-center text-lg">
+                    <i class="fa-solid fa-lock mr-2"></i> Finalizar Contratação
+                </button>
+            </form>
+        </div>
+
+        <!-- Order Summary Section (Sticky sidebar) -->
+        <div class="lg:col-span-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
+                <h3 class="text-lg font-bold mb-4 border-b pb-2">Resumo do Pedido</h3>
+                
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-gray-600" id="summaryPlanName">Abertura de Empresa</span>
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 text-sm">Valor à vista:</span>
+                    <span class="font-medium text-gray-800" id="summaryPlanPrice">R$ 1.678,80</span>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-abraconta-accent mt-1"></i>
+                        <p class="text-sm text-abraconta-blue leading-relaxed">
+                            O parcelamento em até <strong>12x no cartão de crédito</strong> está sujeito a taxas de juros padrão da processadora de pagamentos. O valor exato das parcelas é simulado no campo de pagamento.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-lg">Total</span>
+                        <span class="font-bold text-2xl text-abraconta-blue" id="summaryTotal">R$ 1.678,80</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Pagamento processado de forma segura por <strong>Asaas</strong></span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 text-center text-sm">
+        <p>&copy; 2026 Abraconta Contabilidade Digital. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts de Lógica e Máscaras -->
+    <script>
+        // Tabela de Preços
+        const prices = {
+            'abertura': 1678.80,
+            'transferencia': 1198.80
+        };
+
+        const planNames = {
+            'abertura': 'Abertura de Empresa',
+            'transferencia': 'Transferência de Contabilidade'
+        };
+
+        // Simulação simples de juros (Ex: 2.49% a.m do gateway) para visualização.
+        const interestRatePerMonth = 0.0249; 
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSummary();
+        });
+
+        // Atualizar Resumo e Parcelas
+        function updateSummary() {
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            const price = prices[selectedPlan];
+            const name = planNames[selectedPlan];
+
+            // Atualiza sidebar
+            document.getElementById('summaryPlanName').innerText = name;
+            document.getElementById('summaryPlanPrice').innerText = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('summaryTotal').innerText = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Atualiza select de parcelas
+            const installmentsSelect = document.getElementById('installments');
+            installmentsSelect.innerHTML = '';
+            
+            // Gerar opções de 1x a 12x
+            for (let i = 1; i <= 12; i++) {
+                let installmentValue = price;
+                let text = '';
+                
+                if (i === 1) {
+                    text = `1x de ${price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Sem juros)`;
+                } else {
+                    // Cálculo de juros compostos simulado
+                    const iRate = interestRatePerMonth;
+                    const coef = (iRate) / (1 - Math.pow(1 + iRate, -i));
+                    installmentValue = price * coef;
+                    text = `${i}x de ${installmentValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (Com juros)`;
+                }
+
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = text;
+                // Selecionar 12x por padrão
+                if (i === 12) option.selected = true; 
+                installmentsSelect.appendChild(option);
+            }
+        }
+
+        // --- Máscaras de Input ---
+        function maskCpfCnpj(input) {
+            let v = input.value.replace(/\D/g, "");
+            if (v.length <= 11) { // CPF
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            } else { // CNPJ
+                v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+                v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            }
+            input.value = v;
+        }
+
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+            v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+            input.value = v;
+        }
+
+        function maskCard(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/(\d{4})(?=\d)/g, "$1 ");
+            input.value = v;
+        }
+
+        function maskExpiry(input) {
+            let v = input.value.replace(/\D/g, "");
+            v = v.replace(/(\d{2})(\d)/, "$1/$2");
+            input.value = v;
+        }
+
+        // --- INTEGRAÇÃO REAL COM O SEU BACKEND NODE.JS ---
+        document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evita recarregar a página
+            
+            const btn = document.getElementById('btnSubmit');
+            const errorContainer = document.getElementById('errorMessage');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> A processar...';
+            btn.disabled = true;
+            if (errorContainer) errorContainer.classList.add('hidden'); // Esconde erros anteriores
+
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            const expiryParts = document.getElementById('cardExpiry').value.split('/');
+
+            // Constrói o pacote de dados a ser enviado para o Node.js
+            const payload = {
+                plan: selectedPlan,
+                customer: {
+                    name: document.getElementById('customerName').value,
+                    cpfCnpj: document.getElementById('customerCpfCnpj').value.replace(/\D/g, ''),
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value.replace(/\D/g, '')
+                },
+                payment: {
+                    billingType: 'CREDIT_CARD',
+                    value: prices[selectedPlan],
+                    installmentCount: parseInt(document.getElementById('installments').value),
+                    creditCard: {
+                        holderName: document.getElementById('cardHolderName').value.toUpperCase(),
+                        number: document.getElementById('cardNumber').value.replace(/\D/g, ''),
+                        expiryMonth: expiryParts[0],
+                        expiryYear: expiryParts[1],
+                        ccv: document.getElementById('cardCvv').value
+                    }
+                }
+            };
+
+            try {
+                // CHAMA O SEU SERVIDOR BACKEND (Que está a correr no Node.js na porta 3000)
+                const response = await fetch('http://localhost:3000/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // SUCESSO NO PAGAMENTO!
+                    alert(`Obrigado! Pagamento aprovado com sucesso.\nID do Pagamento: ${data.data.paymentId}`);
+                    
+                    // Aqui você redirecionaria o cliente para a tela de "Parabéns"
+                    // window.location.href = "/obrigado.html"; 
+                    
+                } else {
+                    // ERRO RETORNADO PELO SEU BACKEND/ASAAS (ex: Cartão recusado, sem saldo)
+                    if (errorContainer) {
+                        errorContainer.innerText = `Erro: ${data.message}`;
+                        errorContainer.classList.remove('hidden');
+                    } else {
+                        alert(`Erro: ${data.message}`);
+                    }
+                }
+
+            } catch (error) {
+                // ERRO DE LIGAÇÃO (Servidor Node.js está desligado ou inacessível)
+                if (errorContainer) {
+                    errorContainer.innerText = "Erro ao ligar ao servidor. Verifique se o backend Node.js está a correr.";
+                    errorContainer.classList.remove('hidden');
+                } else {
+                    alert("Erro ao ligar ao servidor.");
+                }
+            } finally {
+                // Devolve o botão ao estado normal
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
