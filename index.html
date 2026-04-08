@@ -28,10 +28,12 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
         .plan-radio:checked + div {
             border-color: #0066cc;
             background-color: #eff6ff;
         }
+
         .plan-radio:checked + div .check-icon {
             opacity: 1;
         }
@@ -54,8 +56,12 @@
     <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div class="lg:col-span-8">
             <form id="checkoutForm" class="space-y-8">
+
                 <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-box-open mr-2"></i>1. Escolha seu serviço</h2>
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue">
+                        <i class="fa-solid fa-box-open mr-2"></i>1. Escolha seu serviço
+                    </h2>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label class="cursor-pointer relative">
                             <input type="radio" name="plan" value="abertura" class="plan-radio sr-only" checked onchange="updateSummary()">
@@ -86,20 +92,26 @@
                 </section>
 
                 <section class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue"><i class="fa-solid fa-user mr-2"></i>2. Dados de Contato</h2>
+                    <h2 class="text-xl font-semibold mb-4 text-abraconta-blue">
+                        <i class="fa-solid fa-user mr-2"></i>2. Dados de Contato
+                    </h2>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
                             <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="João da Silva">
                         </div>
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
                             <input type="text" id="customerCpfCnpj" required oninput="maskCpfCnpj(this)" maxlength="18" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="000.000.000-00">
                         </div>
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Celular / WhatsApp</label>
                             <input type="text" id="customerPhone" required oninput="maskPhone(this)" maxlength="15" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="(11) 90000-0000">
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
                             <input type="email" id="customerEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition" placeholder="joao@email.com">
@@ -125,14 +137,17 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Número do Cartão</label>
                             <input type="text" id="cardNumber" required oninput="maskCard(this)" maxlength="19" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition font-mono tracking-widest" placeholder="0000 0000 0000 0000">
                         </div>
+
                         <div class="md:col-span-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nome impresso no cartão</label>
                             <input type="text" id="cardHolderName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition uppercase" placeholder="JOÃO DA SILVA">
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Validade (MM/AA)</label>
                             <input type="text" id="cardExpiry" required oninput="maskExpiry(this)" maxlength="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition text-center" placeholder="12/29">
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
                             <div class="relative">
@@ -140,6 +155,7 @@
                                 <i class="fa-solid fa-circle-question absolute right-3 top-3 text-gray-400 cursor-help" title="Código de 3 ou 4 dígitos atrás do cartão"></i>
                             </div>
                         </div>
+
                         <div class="md:col-span-4 mt-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Parcelamento (com juros Asaas)</label>
                             <select id="installments" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-abraconta-accent focus:border-abraconta-accent outline-none transition bg-white"></select>
@@ -156,13 +172,16 @@
         <div class="lg:col-span-4">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
                 <h3 class="text-lg font-bold mb-4 border-b pb-2">Resumo do Pedido</h3>
+
                 <div class="flex justify-between items-center mb-3">
                     <span class="text-gray-600" id="summaryPlanName">Abertura de Empresa</span>
                 </div>
+
                 <div class="flex justify-between items-center mb-6">
                     <span class="text-gray-500 text-sm">Valor à vista:</span>
                     <span class="font-medium text-gray-800" id="summaryPlanPrice">R$ 1.678,80</span>
                 </div>
+
                 <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
                     <div class="flex items-start gap-3">
                         <i class="fa-solid fa-circle-info text-abraconta-accent mt-1"></i>
@@ -171,12 +190,14 @@
                         </p>
                     </div>
                 </div>
+
                 <div class="border-t pt-4">
                     <div class="flex justify-between items-center">
                         <span class="font-bold text-lg">Total</span>
                         <span class="font-bold text-2xl text-abraconta-blue" id="summaryTotal">R$ 1.678,80</span>
                     </div>
                 </div>
+
                 <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span>Pagamento processado de forma segura por <strong>Asaas</strong></span>
@@ -342,16 +363,22 @@
                 });
 
                 const contentType = response.headers.get('content-type') || '';
-                const data = contentType.includes('application/json') ? await response.json() : await response.text();
+                const data = contentType.includes('application/json')
+                    ? await response.json()
+                    : await response.text();
 
                 if (response.ok && data.success) {
                     showSuccess(`Checkout enviado com sucesso. ID do pagamento: ${data.data.payment_id || data.data.paymentId || 'gerado'}`);
                 } else {
-                    const message = typeof data === 'object' ? (data.message || 'Erro ao enviar checkout.') : 'Erro ao enviar checkout.';
+                    const message = typeof data === 'object'
+                        ? (data.message || `Erro HTTP ${response.status}`)
+                        : `Erro HTTP ${response.status}: ${data}`;
                     showError(message);
+                    console.error('Resposta do n8n:', data);
                 }
             } catch (error) {
-                showError('Erro ao conectar com o webhook do n8n. Verifique se o workflow está ativo e se o domínio do front está liberado no webhook.');
+                console.error('Erro fetch:', error);
+                showError(`Falha ao enviar para o webhook: ${error.message}`);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
