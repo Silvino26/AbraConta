@@ -121,6 +121,9 @@
                     </h2>
                     
                     <div id="errorMessage" class="hidden mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-md text-sm"></div>
+                    <div id="successMessage" class="hidden mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md text-sm">
+                        Pagamento enviado com sucesso.
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="md:col-span-4">
@@ -301,14 +304,24 @@
 
         const btn = document.getElementById('btnSubmit');
         const errorContainer = document.getElementById('errorMessage');
+        const successContainer = document.getElementById('successMessage');
 
         const originalText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> A processar...';
         btn.disabled = true;
+
         if (errorContainer) errorContainer.classList.add('hidden');
+        if (successContainer) successContainer.classList.add('hidden');
 
         const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
         const expiryParts = document.getElementById('cardExpiry').value.split('/');
+        const installmentsSelect = document.getElementById('installments');
+        const installmentCount = parseInt(installmentsSelect.value, 10);
+        const selectedText = installmentsSelect.options[installmentsSelect.selectedIndex].text;
+        const installmentMatch = selectedText.match(/R\$\s*([\d\.,]+)/);
+        const installmentValue = installmentMatch
+            ? Number(installmentMatch[1].replace(/\./g, '').replace(',', '.'))
+            : prices[selectedPlan];
 
         const payload = {
             plan: selectedPlan,
@@ -321,7 +334,8 @@
             payment: {
                 billingType: 'CREDIT_CARD',
                 value: prices[selectedPlan],
-                installmentCount: parseInt(document.getElementById('installments').value),
+                installmentCount: installmentCount,
+                installmentValue: installmentCount > 1 ? installmentValue : null,
                 cpfCnpj: document.getElementById('paymentCpfCnpj').value.replace(/\D/g, ''),
                 creditCard: {
                     holderName: document.getElementById('cardHolderName').value.toUpperCase(),
@@ -346,13 +360,14 @@
             const data = await response.json();
 
             if (response.ok && data.success) {
-                alert(`Obrigado! Pagamento enviado com sucesso.\nID do Pagamento: ${data.data.payment_id || data.data.paymentId || 'gerado'}`);
+                if (successContainer) {
+                    successContainer.innerText = 'Pagamento enviado com sucesso.';
+                    successContainer.classList.remove('hidden');
+                }
             } else {
                 if (errorContainer) {
                     errorContainer.innerText = `Erro: ${data.message || 'Falha ao enviar para o n8n.'}`;
                     errorContainer.classList.remove('hidden');
-                } else {
-                    alert(`Erro: ${data.message || 'Falha ao enviar para o n8n.'}`);
                 }
             }
 
@@ -360,14 +375,12 @@
             if (errorContainer) {
                 errorContainer.innerText = "Erro ao conectar com o webhook do n8n.";
                 errorContainer.classList.remove('hidden');
-            } else {
-                alert("Erro ao conectar com o webhook do n8n.");
             }
         } finally {
             btn.innerHTML = originalText;
             btn.disabled = false;
         }
     });
-</script>
+    </script>
 </body>
 </html>
